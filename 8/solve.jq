@@ -1,20 +1,33 @@
 #!/usr/bin/jq -Rnf
 
+(
+    if $part == "1" then
+        . | {start: ["AAA"], end:"ZZZ"}
+    elif $part == "e2" then
+        . | {start: ["11A","22A"], end:"Z"}
+    else
+        . | {start: ["AAA","PRA","PVA","XLA","PTA","FBA"], end:"Z"}
+    end
+) as $patters |
+
 [ inputs ] |
 (.[0] | split("")) as $directions |
-.[2:] | map(capture("(?<pos>[A-Z]+) = \\((?<left>[A-Z]+), (?<right>[A-Z]+)\\)")) as $map |
+.[2:] | map(capture("(?<pos>[0-9A-Z]+) = \\((?<left>[0-9A-Z]+), (?<right>[0-9A-Z]+)\\)")) as $places |
 $directions | length as $len |
 
-{ pos: "AAA", i: 0} |
+{ here: $patters.start, i: 0} |
 [
-    while (.pos != "ZZZ";
-        .pos as $here | .i as $i |
-        .pos = (
-            $map | .[] | select(.pos == $here ) |
+    while ( 
+         .here | map(endswith($patters.end)) | map(not) | any;
+
+        .here as $here | .i as $i | 
+        .here = (
+            $places | map(select(.pos as $pos | $here | index($pos))) |
+
             if $directions[$i % $len] == "L" then
-                .left
+                map(.left)
             else
-                .right
+                map(.right)
             end
         ) | .i += 1 | debug
     )

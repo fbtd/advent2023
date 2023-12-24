@@ -1,8 +1,5 @@
 #!/usr/bin/jq -Rnf
 
-# usage: solve.jq --arg part 1 < input  # for part 1
-# usage: solve.jq --arg part 2 < input  # for part 2
-
 def find(cond; len):
     def _find:
         if cond then

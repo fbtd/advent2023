@@ -7,7 +7,7 @@
     if $part == "2" then
         {A: 14, K: 13, Q: 12, J: 1, T: 10}
     else
-        {A: 14, K: 13, Q: 12, J: 11, T: 10} 
+        {A: 14, K: 13, Q: 12, J: 11, T: 10}
     end
 ) as $LABELS |
 
