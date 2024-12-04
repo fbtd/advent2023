@@ -1,3 +1,5 @@
+#![allow(unused_imports)]
+
 use std::error::Error;
 use std::fmt;
 use std::fs;
@@ -14,6 +16,8 @@ fn main() -> Result<(), Box<dyn Error>> {
     let input_string = fs::read_to_string(MAIN_INPUT)?;
     let result_1 = part_1::solve(&input_string)?;
     println!("part_1: {result_1}");
+    let result_2 = part_2::solve(&input_string)?;
+    println!("part_2: {result_2}");
     Ok(())
 }
 
